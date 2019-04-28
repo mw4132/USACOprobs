@@ -1,0 +1,97 @@
+import java.util.*;
+import java.io.*;
+public class milkFactory {
+  public static void main(String[] args) throws IOException{
+    Scanner sc = new Scanner(new File("factory.in"));
+    PrintWriter pw = new PrintWriter(new File("factory.out"));
+    int n = Integer.parseInt(sc.nextLine());
+    int[][]arr = new int[n-1][2];
+
+    //copy array
+    for (int i = 0; i < n-1; i++){
+      for (int j = 0; j < 2; j++){
+        while(sc.hasNextInt()){
+          arr[i][j] = sc.nextInt();
+          break;
+        }
+      }
+    }
+    
+    //array of starting points
+    int[]arr2 = new int[arr.length];
+    for (int i = 0; i <arr.length; i++){
+      arr2[i] = arr[i][0];
+    }
+    
+    //array of ending points
+    int[] arr3 = new int[arr.length];
+    for (int m = 0; m < arr3.length; m++) {
+    	arr3[m] = arr[m][1];
+    }
+
+    if (!hasAllDifferentFirsts(arr2)){
+      pw.print("-1");
+    }
+    
+    else  if (findCommonNum(arr3) != -1) 
+    {
+    	pw.print(findCommonNum(arr3));
+    }
+    
+    else {
+    	pw.print(singleOccurence(arr2, arr3));
+    }
+
+    sc.close();
+    pw.close();
+  }
+
+  public static boolean hasAllDifferentFirsts(int[]arr){
+    boolean bool = true;
+    
+
+    for (int j = 0; j < arr.length; j++){
+      for (int k = j+1; k < arr.length; k++){
+        if (arr[j]==arr[k]){
+          bool = false;
+          break;
+        }
+      }
+    }
+
+    return bool;
+  }
+  
+  
+  
+  public static int findCommonNum(int[]arr) {
+	  int common = arr[0];
+	  for (int l = 0; l < arr.length; l++) {
+		  if (common != arr[l]){
+			  common = -1;
+			  break;
+		  }
+	  }
+	  return common;
+  }
+  
+  public static int singleOccurence(int[]arr2, int[]arr3) {
+	  int count = 0;
+	  int number = 0;
+	  for (int n = 0; n < arr3.length; n++) {
+		  for (int p = 0; p < arr2.length; p++) {
+			  if (arr3[n]!=arr2[p]) {
+				  count++;
+			  }
+		  }
+		  if (count==arr2.length) {
+			  number = arr3[n];
+		  }
+		  count = 0;
+			  
+	  }
+	  return number;
+  }
+
+
+}
